@@ -173,7 +173,17 @@ class Solution(object):
 
 给定二叉树[3,9,20,null,null,15,7,null,4]返回它的最大深度4，最小深度2
 
+#### 方法一：BFS
 
+求最大深度：层层扫描，扫到最后一层就是最大深度。
+
+求最小深度：扫描到第一个叶子节点，就是最小深度。
+
+**关键：**每一层在推进的时候要记录level的信息，如果当前节点是叶子节点的话，更新max和min的信息。 
+
+#### 方法二：DFS
+
+分治，分别计算左子树和右子树的最大深度，求出两者中的较大值，并加1。
 
 ```python
 class Solution:
@@ -182,10 +192,7 @@ class Solution:
             return 0
         return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
     
-    if root==null:
-        return 0
-    else:
-        return 1+Math.max(maxDepth(root.left),self.maxDepth(root.right))
+   
 ```
 
 
@@ -207,10 +214,10 @@ class Solution:
             return 0
         left = minDepth(root.left)
         right = minDepth(root.right)
-        if left ==0 || right ==0:
-            return left+right+1
+        if left ==0 or right ==0: #左子树或右子树有一个为空
+            return left+right+1 #直接加起来即可
         else:
-            min(left,right)+1
+            min(left,right)+1 #若左右都不为空，则取两者中较小者
 ```
 
 

@@ -69,32 +69,37 @@ def DFS(graph,start):
 
 a，不建议把level 信息加入到queue中
 
-b，最佳方法Betch process
+a，不建议把level 信息加入到queue中
+
+**b，最佳方法Betch process**
+
+关键点：1，记得BFS的模板，queue不为空时，不断处理queue中的节点。2，同时把新的一层加入queue中
 
 ```python
 class Solution(object):
     def levelOrder(self,root):
-        if not root:
+        if not root: #首先判断root
             return []
         
         result = []
-        queue = collections.deque()
+        queue = collections.deque() #调包双端队列
         queue.append(root)
         
-        #visited = set(root)
+        #visited = set(root) 本题是树结构，不会走回头路
         
-        while queue:
-            level_size = len(queue)
-            current_level = []
-            
+        while queue: #BFS灵魂，只要queue不为空，一直循环
+            level_size = len(queue) #先取出当前层的总长度
+            current_level = [] #当前层结果
+        #根据当前层的总长度，每次把queue的头元素取出    
             for _ in range(level_size):
                 node = queue.popleft()
-                current_level.append(node.val)
+                current_level.append(node.val) #把当前层元素依次加入
+                #如果该节点有子节点，则左右节点分别加入队列中，由于加入到队列的后面，因此在当前循环中不会被操作
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-                
+             #当前层处理完毕后，将当前层的结果放到result中   
              result.append(current_level)
           
          return result

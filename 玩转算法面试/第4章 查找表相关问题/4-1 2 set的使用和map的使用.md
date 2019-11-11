@@ -114,3 +114,37 @@ print(d)
 >>> d
 {'Michael': 95, 'Tracy': 85}
 ```
+
+### LeetCode 350 Intersection of Two Arrays
+
+给定两个数组nums,求两个数组的交集。
+
+——如nums1=[1,2,2,1],nums2=[2,2]
+
+——结果为[2,2]
+
+——出现的顺序可以是任意的
+
+
+
+#### 解题：
+
+使用dict，遍历nums1，将nums1的字符作为key，出现频率作为value。
+
+遍历nums2，如果在dict有nums2的字符，将其加入res中，该字符对应的value减1
+
+```python
+def subString(nums1,nums2):
+    dict1 ={}
+    res = []
+    for i in range(len(nums1)):
+        dict1[nums1[i]]=dict1.get(nums1[i],0)+1
+    
+    for i in range(len(nums2)):
+        if dict1[nums2[i]]>0:  
+            res.append(nums2[i])
+            dict1[nums2[i]]-=1
+    return res
+
+```
+

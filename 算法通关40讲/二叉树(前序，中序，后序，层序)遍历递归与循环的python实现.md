@@ -186,7 +186,8 @@ Q：如果仍然按层遍历，但是每层从右往左遍历怎么办呢？
 
 A：将上面的代码left和right互换即可
 
-Q：如果仍然按层遍历，但是我要第一层从左往右，第二层从右往左，第三从左往右...这种zigzag遍历方式如何实现？
+Q：如果仍然按层遍历，但是我要第一层从左往右，第二层从右往左，第三从左往右...这种zigzag遍历方式如何实现？(Leetcode103)
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
 
 A：将`res[level-1].append(node.val)`进行一个层数奇偶的判断，一个用`append()`，一个用`insert(0,)`
 
@@ -220,5 +221,6 @@ class Solution:
                 queue.append(curr.right)
         return res
 ```
+
 
 其实，如果需要打印成zigzag形式（相邻层打印顺序相反），则可以采用栈stack数据结构，正好符合先进后出的形式。不过在代码上还要进行其他改动。

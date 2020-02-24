@@ -48,11 +48,12 @@
 
 [Leetcode](https://leetcode.com/problems/maximum-depth-of-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
 
-```java
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-}
+```python
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return max(self.maxDepth(root.left),self.maxDepth(root.right))+1
 ```
 
 ## 2. 平衡树
@@ -71,21 +72,29 @@ public int maxDepth(TreeNode root) {
 
 平衡树左右子树高度差都小于等于 1
 
-```java
-private boolean result = true;
+平衡树左右子树高度差都小于等于 1
 
-public boolean isBalanced(TreeNode root) {
-    maxDepth(root);
-    return result;
-}
+解题思路：创建的辅助函数balanced返回以root节点树的深度，如果返回值不为-1则是平衡树，否则返回值为-1则不是平衡树。不是平衡树的条件：1、左子树或右子树不是平衡树；2、左子树与右子树之间高度相差大于1。
 
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    int l = maxDepth(root.left);
-    int r = maxDepth(root.right);
-    if (Math.abs(l - r) > 1) result = false;
-    return 1 + Math.max(l, r);
-}
+```python
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        
+        def balanced(node):
+            if not node:
+                return 0
+            
+            leftDepth = balanced(node.left) #求左子树深度
+            rightDepth = balanced(node.right) #求右子树深度
+            
+            if leftDepth ==-1 or rightDepth==-1: #左子树或右子树不平衡
+                return -1
+            if abs(leftDepth-rightDepth)>1: #左子树与右子树之间高度相差大于1
+                return -1
+            
+            return 1+max(balanced(node.left),balanced(node.right)) #求深度的递归出口
+        
+        return balanced(root) != -1
 ```
 
 ## 3. 两节点的最长路径
@@ -129,14 +138,18 @@ private int depth(TreeNode root) {
 
 [Leetcode](https://leetcode.com/problems/invert-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/invert-binary-tree/description/)
 
-```java
-public TreeNode invertTree(TreeNode root) {
-    if (root == null) return null;
-    TreeNode left = root.left;  // 后面的操作会改变 left 指针，因此先保存下来
-    root.left = invertTree(root.right);
-    root.right = invertTree(left);
-    return root;
-}
+```python
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return
+        
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        root.left,root.right = root.right,root.left
+        
+        return root
+        
 ```
 
 ## 5. 归并两棵树
@@ -161,17 +174,28 @@ Output:
       / \   \
      5   4   7
 ```
-
-```java
-public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
-    if (t1 == null && t2 == null) return null;
-    if (t1 == null) return t2;
-    if (t2 == null) return t1;
-    TreeNode root = new TreeNode(t1.val + t2.val);
-    root.left = mergeTrees(t1.left, t2.left);
-    root.right = mergeTrees(t1.right, t2.right);
-    return root;
-}
+解题思路：如果t1或t2都不存在或其中有一个不存在则返回t1 or t2。如果都存在，则建立一个root节点，值为t1,t2根节点value的和，并以递归的方法创建左子树和右子树。
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        if not t1 and not t2:
+            return None
+        if not t1:
+            return t2
+        if not t2:
+            return t1
+        
+        root = TreeNode(t1.val+t2.val)
+        root.left = self.mergeTrees(t1.left,t2.left)
+        root.right = self.mergeTrees(t1.right,t2.right)
+        
+        return root
 ```
 
 ## 6. 判断路径和是否等于一个数
